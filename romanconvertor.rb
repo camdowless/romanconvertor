@@ -14,8 +14,8 @@ def fromRoman(romanNumber)
         "IV" => 4,
         "I" => 1
     }
-
-    chars = romanNumber.split('')
+    number = romanNumber.dup
+    chars = number.split('')
     chars.each{ |c|
       unless nums.keys.include?(c)
         raise TypeError
@@ -23,19 +23,20 @@ def fromRoman(romanNumber)
     }
     result = 0
     for key, value in nums
-        while romanNumber.index(key) == 0
+        while number.index(key) == 0
             result += value
-            romanNumber.slice!(key)
+            number.slice!(key)
         end
     end
     result
 end
 
 def toRoman(arabicNumber)
-    if arabicNumber == ""
+    number = arabicNumber.dup
+    if number.class != Integer 
         return ""
     end
-    if arabicNumber > 3999 || arabicNumber < 1
+    if number > 3999 || number < 1
         raise RangeError
     end
 
@@ -47,7 +48,7 @@ def toRoman(arabicNumber)
         9    => "IX", 5   => "V", 4   => "IV", 1   => "I"
     }
     @digits.keys.each_with_object('') do |key, str|
-        nbr, arabicNumber = arabicNumber.divmod(key)
+        nbr, number = number.divmod(key)
         result << @digits[key]*nbr
       end
       result
